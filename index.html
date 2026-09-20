@@ -4,11 +4,678 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLama con 99</title>
+  <title>Llama con 99 — Identificador de llamadas *99</title>
+  <meta name="description"
+    content="Llama con 99: identifica quién te llama por cobro revertido (*99) mostrando el nombre real de tus contactos. App mínima para iOS." />
+  <meta name="theme-color" content="#0f0f0f" />
+  <link rel="icon" type="image/png" href="assets/app-icon-dark.png" />
+  <link rel="apple-touch-icon" href="assets/app-icon-dark.png" />
+
+  <!-- Open Graph & Twitter -->
+  <meta property="og:title" content="Llama con 99 — Identificador de llamadas *99" />
+  <meta property="og:description"
+    content="Identifica quién te llama por cobro revertido (*99) mostrando el nombre real de tus contactos." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/app-icon-dark.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Llama con 99 — Identificador de llamadas *99" />
+  <meta name="twitter:description" content="Identifica quién te llama por cobro revertido (*99) con el nombre real." />
+
+  <!-- Tailwind CDN + config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0f0f0f',
+            accent: '#2AB78F',
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'sans-serif'],
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+          },
+          animation: {
+            fadeIn: 'fadeIn 0.4s ease both',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Pre-render Dark Mode Init to prevent FOUC -->
+  <script>
+    if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+
+  <style>
+    .nav-link { transition: color .15s ease; }
+    .nav-link:hover { color: #2AB78F; }
+    .gradient-text {
+      background: linear-gradient(90deg, #0f0f0f, #2AB78F);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .gradient-bg { background: linear-gradient(90deg, #0f0f0f, #2AB78F); }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      background: linear-gradient(90deg, #0f0f0f, #2AB78F);
+      color: #fff; font-weight: 700; padding: .875rem 1.75rem; border-radius: .9rem;
+      box-shadow: 0 10px 25px -8px rgba(15,15,15,.4);
+      transition: filter .15s ease, transform .15s ease;
+    }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      font-weight: 700; padding: .875rem 1.75rem; border-radius: .9rem;
+      border: 1px solid rgba(15,15,15,.25);
+      transition: background-color .15s ease;
+    }
+    .dark .btn-ghost { border-color: rgba(42,183,143,.35); }
+    .btn-ghost:hover { background-color: rgba(15,15,15,.05); }
+    .dark .btn-ghost:hover { background-color: rgba(42,183,143,.08); }
+    .section-badge {
+      display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+      color: #2AB78F; background: rgba(42,183,143,.1); padding: .3rem .85rem; border-radius: 999px; margin-bottom: 1rem;
+    }
+    .section-title { font-size: 2rem; font-weight: 900; margin-bottom: .5rem; }
+    .section-subtitle { color: #6b7280; max-width: 36rem; margin: 0 auto; }
+    .dark .section-subtitle { color: #9ca3af; }
+    .code-inline {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      background: rgba(42,183,143,.1); color: #2AB78F;
+      padding: .1rem .4rem; border-radius: .4rem; font-size: .85em;
+    }
+    details > summary { cursor: pointer; list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .faq-chevron { transform: rotate(180deg); }
+    .footer-link { color: inherit; transition: color .15s ease; }
+    .footer-link:hover { color: #2AB78F; }
+  </style>
 </head>
 
-<body>
-  COMMING SOON
+<body
+  class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300 overflow-x-hidden">
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav style="z-index: 9999;"
+    class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+      <a href="#" class="flex items-center gap-2.5 font-bold text-navy dark:text-accent text-lg">
+        <img src="assets/app-icon-dark.png" alt="Llama con 99" class="w-8 h-8 dark:hidden rounded-lg shadow-sm" />
+        <img src="assets/app-icon-light.png" alt="Llama con 99" class="w-8 h-8 hidden dark:block rounded-lg shadow-sm" />
+        <span class="text-gray-900 dark:text-white font-bold">Llama con 99</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
+        <a href="#features" class="nav-link">Funciones</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button @click="darkMode = !darkMode"
+          class="w-9 h-9 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          :title="darkMode ? 'Modo claro' : 'Modo oscuro'">
+          <span x-show="!darkMode"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+            </svg></span>
+          <span x-show="darkMode"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m0 13.5V21m8.974-8.974h-2.25M4.25 12h2.25m13.308-7.308l-1.591 1.591M6.829 17.171l-1.591 1.591m12.932 0l-1.591-1.591M6.829 6.829L5.238 5.238M17.5 12A5.5 5.5 0 1112 6.5a5.5 5.5 0 015.5 5.5z" />
+            </svg></span>
+        </button>
+
+        <div class="hidden sm:flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700">
+          <svg class="w-4 h-4 text-gray-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="text-gray-900 dark:text-white hover:text-navy dark:hover:text-accent font-medium">iOS</a>
+          <span class="text-gray-400">·</span>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="text-gray-900 dark:text-white hover:text-navy dark:hover:text-accent font-medium">Android</a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button @click="mobileMenuOpen = !mobileMenuOpen"
+          class="md:hidden p-2 text-gray-600 dark:text-gray-300 ml-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            style="display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen" x-transition
+      class="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md">
+      <div class="px-4 pt-2 pb-6 space-y-1 shadow-lg">
+        <a href="#features" @click="mobileMenuOpen = false"
+          class="block px-3 py-3 rounded-xl text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Funciones</a>
+        <a href="#faq" @click="mobileMenuOpen = false"
+          class="block px-3 py-3 rounded-xl text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">FAQ</a>
+        <div class="pt-2 pb-3 flex items-center px-3">
+          <svg class="w-5 h-5 text-gray-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="ml-2 text-base font-medium text-gray-900 dark:text-white hover:text-navy dark:hover:text-accent">iOS</a>
+          <span class="mx-2 text-gray-400">·</span>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="text-base font-medium text-gray-900 dark:text-white hover:text-navy dark:hover:text-accent">Android</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════ -->
+    <section id="hero"
+      class="pt-32 pb-20 sm:pt-40 sm:pb-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-gray-50 to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 text-gray-900 dark:text-white relative transition-colors duration-300">
+
+      <!-- Background blobs -->
+      <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div class="absolute top-0 left-0 w-80 h-80 rounded-full bg-navy opacity-[0.06] blur-[110px]"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-accent opacity-[0.06] blur-[110px]"></div>
+      </div>
+
+      <div class="relative max-w-3xl mx-auto text-center animate-fadeIn">
+
+        <div class="flex justify-center mb-6">
+          <img src="assets/app-icon-dark.png" alt="Llama con 99"
+            class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-xl dark:hidden" />
+          <img src="assets/app-icon-light.png" alt="Llama con 99"
+            class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-xl hidden dark:block" />
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-5">
+          Sabe quién te llama<br />
+          <span class="gradient-text">por cobro revertido</span>
+        </h1>
+
+        <p class="text-xl text-gray-600 dark:text-white/70 leading-relaxed mb-3">
+          Llama con 99 identifica las llamadas <code class="code-inline">*99</code> mostrando el nombre real
+          de tus contactos guardados, en vez de solo el número.
+        </p>
+        <p class="text-sm text-gray-500 dark:text-white/40 mb-8">
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="hover:text-navy dark:hover:text-accent transition-colors font-medium underline underline-offset-2">iOS</a>
+          &nbsp;·&nbsp;
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="hover:text-navy dark:hover:text-accent transition-colors font-medium underline underline-offset-2">Android</a>
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button @click="notifyOpen = true" class="btn-primary">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            Avísame cuando esté lista
+          </button>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener" class="btn-ghost">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            Ver código fuente
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         FUNCIONES
+    ════════════════════════════════════════ -->
+    <section id="features" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 relative">
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute top-0 left-0 w-72 h-72 rounded-full bg-navy opacity-[0.05] dark:opacity-[0.06] blur-[110px]"></div>
+        <div class="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-accent opacity-[0.05] dark:opacity-[0.05] blur-[110px]"></div>
+      </div>
+      <div class="max-w-6xl mx-auto relative">
+        <div class="text-center mb-16">
+          <span class="section-badge">Funciones</span>
+          <h2 class="section-title">Qué hace Llama con 99</h2>
+          <p class="section-subtitle mx-auto">Una app mínima de contactos con identificador de llamadas, pensada para números cubanos.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700/60 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-accent/10 dark:bg-accent/20 text-accent flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 dark:text-white">Lista de contactos cubanos</h3>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Muestra los contactos del dispositivo con número cubano (+53, 8 dígitos), agrupados alfabéticamente con buscador.</p>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700/60 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-accent/10 dark:bg-accent/20 text-accent flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 dark:text-white">Llamada por cobro revertido</h3>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Toca un contacto para marcar directo una llamada <code class="code-inline">*99</code> (cobro revertido).</p>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700/60 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-accent/10 dark:bg-accent/20 text-accent flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 dark:text-white">Identificador de llamadas entrantes</h3>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Una extensión de CallKit reconoce las llamadas entrantes <code class="code-inline">*99</code> y muestra el nombre real del contacto en la pantalla nativa, en vez del número.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Nota de privacidad -->
+      <div class="max-w-6xl mx-auto mt-8 px-0">
+        <div class="bg-navy/5 dark:bg-accent/10 rounded-2xl p-6 border border-navy/20 dark:border-accent/30">
+          <div class="flex items-start gap-4">
+            <div class="p-2.5 rounded-xl bg-navy/10 dark:bg-accent/20 text-navy dark:text-accent shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75L11.25 15 15 9.75M21 12c0 4.556-3.04 8.4-7.2 9.618a1.5 1.5 0 01-1.6 0C7.04 20.4 4 16.556 4 12V6.216a1.5 1.5 0 011.05-1.43l6-1.85a1.5 1.5 0 01.9 0l6 1.85a1.5 1.5 0 011.05 1.43V12z"/></svg>
+            </div>
+            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+              <h4 class="font-bold text-base text-gray-900 dark:text-white">Tus contactos se quedan en tu teléfono</h4>
+              <p>
+                La lista que identifica las llamadas <code class="code-inline">*99</code> se guarda localmente y se comparte con la extensión de CallKit mediante un App Group de Apple — nada se envía a un servidor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ════════════════════════════════════════
+         FAQ
+    ════════════════════════════════════════ -->
+    <section id="faq" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 relative">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="section-badge">FAQ</span>
+          <h2 class="section-title">Preguntas frecuentes</h2>
+        </div>
+
+        <div class="space-y-3">
+
+          <details class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Qué es una llamada *99?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Es el prefijo que usa ETECSA en Cuba para marcar una llamada por cobro revertido: quien recibe la llamada paga el consumo, no quien llama.</p>
+          </details>
+
+          <details class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Por qué no veo el número real en las llamadas *99?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Por defecto tu teléfono solo recibe el número, sin nombre asociado. Llama con 99 activa una extensión de CallKit que cruza ese número con tu libreta de contactos y muestra el nombre real.</p>
+          </details>
+
+          <details class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Qué hace el prefijo #31#?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Es un código estándar GSM que oculta tu número al hacer una llamada saliente. Desliza sobre un contacto en la app para usarlo.</p>
+          </details>
+
+          <details class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Necesito internet para usar la app?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">No. La app solo lee tu libreta de contactos local y marca llamadas nativas; no depende de datos móviles.</p>
+          </details>
+
+          <details class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Está disponible para Android?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">La versión de iOS está lista. La de Android está en desarrollo — sigue el repositorio para novedades.</p>
+          </details>
+
+          <details class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Es una app oficial de ETECSA?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">No. Es un proyecto independiente y no está afiliado ni respaldado por ETECSA. Los códigos USSD pueden cambiar a discreción del operador.</p>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         APPS SIMILARES
+    ════════════════════════════════════════ -->
+    <section id="similar-apps" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 relative border-t border-gray-200 dark:border-gray-800">
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute top-0 right-0 w-72 h-72 rounded-full bg-accent opacity-[0.07] dark:opacity-[0.08] blur-[110px]"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-navy opacity-[0.06] dark:opacity-[0.06] blur-[110px]"></div>
+      </div>
+      <div class="max-w-5xl mx-auto text-center relative">
+        <span class="section-badge">Apps similares</span>
+        <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2">Otras apps del mismo autor</h2>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mb-8 leading-relaxed max-w-xl mx-auto">Si te sirvió Llama con 99, estas otras apps para Cuba también te pueden interesar.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+
+          <!-- Qvacell -->
+          <a href="https://qvacell.vercel.app/?utm_source=llamacon99&utm_medium=web&utm_campaign=similar_apps" target="_blank" rel="noopener"
+            class="flex flex-col justify-between bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-left group">
+            <div>
+              <div class="flex items-start justify-between mb-4">
+                <img src="assets/apps/qvacell-light.png" alt="Qvacell" class="w-14 h-14 rounded-2xl shadow-sm flex-shrink-0 dark:hidden" />
+                <img src="assets/apps/qvacell-dark.png" alt="Qvacell" class="w-14 h-14 rounded-2xl shadow-sm flex-shrink-0 hidden dark:block" />
+                <span class="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-700/60 flex items-center justify-center text-gray-400 group-hover:text-accent group-hover:bg-accent/10 transition-colors flex-shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex items-center justify-between gap-2 flex-wrap mb-1.5">
+                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-accent transition-colors text-lg">Qvacell</h3>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-gray-100 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 border border-gray-200/80 dark:border-gray-600/60">iOS</span>
+              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Operaciones de ETECSA desde el móvil: saldo, paquetes y transferencias por códigos USSD, sin internet.</p>
+            </div>
+          </a>
+
+          <!-- Banca Remota -->
+          <a href="https://bancaremota.vercel.app/?utm_source=llamacon99&utm_medium=web&utm_campaign=similar_apps" target="_blank" rel="noopener"
+            class="flex flex-col justify-between bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-left group">
+            <div>
+              <div class="flex items-start justify-between mb-4">
+                <img src="assets/apps/bancaremota-light.png" alt="Banca Remota" class="w-14 h-14 rounded-2xl shadow-sm flex-shrink-0 dark:hidden" />
+                <img src="assets/apps/bancaremota-dark.png" alt="Banca Remota" class="w-14 h-14 rounded-2xl shadow-sm flex-shrink-0 hidden dark:block" />
+                <span class="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-700/60 flex items-center justify-center text-gray-400 group-hover:text-accent group-hover:bg-accent/10 transition-colors flex-shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex items-center justify-between gap-2 flex-wrap mb-1.5">
+                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-accent transition-colors text-lg">Banca Remota</h3>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-gray-100 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 border border-gray-200/80 dark:border-gray-600/60">iOS</span>
+              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">App nativa para iPhone que simplifica las operaciones bancarias cubanas mediante USSD. Sin internet.</p>
+            </div>
+          </a>
+
+          <!-- Casero.cu -->
+          <a href="https://casero-cu.vercel.app/?utm_source=llamacon99&utm_medium=web&utm_campaign=similar_apps" target="_blank" rel="noopener"
+            class="flex flex-col justify-between bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-left group">
+            <div>
+              <div class="flex items-start justify-between mb-4">
+                <img src="assets/apps/casero-light.png" alt="Casero.cu" class="w-14 h-14 rounded-2xl shadow-sm flex-shrink-0 dark:hidden" />
+                <img src="assets/apps/casero-dark.png" alt="Casero.cu" class="w-14 h-14 rounded-2xl shadow-sm flex-shrink-0 hidden dark:block" />
+                <span class="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-700/60 flex items-center justify-center text-gray-400 group-hover:text-accent group-hover:bg-accent/10 transition-colors flex-shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex items-center justify-between gap-2 flex-wrap mb-1.5">
+                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-accent transition-colors text-lg">casero.cu</h3>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-gray-100 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 border border-gray-200/80 dark:border-gray-600/60">iOS</span>
+              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Clientes nativos para propietarios de alojamientos en Cuba que facilitan enviar los reportes de huéspedes al portal oficial casero.rem.cu.</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         NOTIFY CTA
+    ════════════════════════════════════════ -->
+    <section id="notify-section" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-[rgb(10,10,10)] relative overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute top-0 right-1/4 w-80 h-80 rounded-full bg-accent opacity-[0.13] dark:opacity-[0.1] blur-3xl"></div>
+        <div class="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-navy opacity-[0.1] dark:opacity-[0.08] blur-3xl"></div>
+      </div>
+      <div class="max-w-lg mx-auto text-center relative z-10">
+
+        <div class="flex justify-center mb-6">
+          <img src="assets/app-icon-dark.png" alt="Llama con 99" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-xl dark:hidden" />
+          <img src="assets/app-icon-light.png" alt="Llama con 99" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-xl hidden dark:block" />
+        </div>
+
+        <div class="inline-flex items-center gap-2 text-navy dark:text-accent text-xs font-semibold uppercase tracking-widest rounded-full px-4 py-1.5 mb-5">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          Pronto en la App Store
+        </div>
+
+        <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2">Avísame cuando esté lista</h2>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">La app está en desarrollo y próximamente estará disponible en la App Store.
+          Déjanos tu correo y te avisaremos en cuanto se publique.</p>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+          <button @click="notifyOpen = true" class="btn-primary w-full sm:w-auto px-8">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            Notifícame
+          </button>
+          <a href="#faq" class="btn-ghost">
+            Cómo funciona
+          </a>
+        </div>
+        <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          Código fuente en GitHub &nbsp;
+          <br>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener" class="hover:text-navy dark:hover:text-accent transition-colors font-medium underline underline-offset-2">iOS</a>
+          &nbsp;·&nbsp;
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener" class="hover:text-navy dark:hover:text-accent transition-colors font-medium underline underline-offset-2">Android</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════
+       MODAL — AVÍSAME CUANDO ESTÉ LISTA
+  ════════════════════════════════════════ -->
+  <div x-show="notifyOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="display:none">
+
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="notifyOpen = false"></div>
+
+    <div x-show="notifyOpen" x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 translate-y-full sm:translate-y-2 scale-100 sm:scale-95"
+      x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+      x-transition:leave-end="opacity-0 translate-y-full sm:translate-y-2 scale-100 sm:scale-95"
+      class="relative w-full sm:max-w-md bg-white dark:bg-gray-900 rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden"
+      @keydown.escape.window="notifyOpen = false">
+
+      <div class="h-1 bg-gradient-to-r from-navy via-accent to-navy"></div>
+
+      <div class="sm:hidden flex justify-center pt-3 pb-1" aria-hidden="true">
+        <span class="w-10 h-1.5 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+      </div>
+
+      <button @click="notifyOpen = false"
+        class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="p-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:pb-8">
+        <div
+          class="inline-flex items-center gap-2 text-navy dark:text-accent text-xs font-semibold uppercase tracking-widest rounded-full px-3 py-1 mb-5">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          Pronto en la App Store
+        </div>
+
+        <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2">Avísame cuando esté lista</h2>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">La app está en desarrollo. Déjanos tu
+          correo y serás el primero en saber cuando esté disponible en la App Store.</p>
+
+        <div x-data="notifyForm()">
+          <form @submit.prevent="submit()" class="flex flex-col gap-3">
+            <input x-model="email" type="email" required placeholder="tucorreo@ejemplo.com" :disabled="loading || sent"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/10 border border-gray-200 dark:border-white/15 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-accent disabled:opacity-50 transition" />
+            <button type="submit" :disabled="loading || sent"
+              class="w-full px-6 py-3 gradient-bg hover:brightness-110 text-white font-bold rounded-xl transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow shadow-navy/30">
+              <span x-show="!loading && !sent" class="flex items-center gap-2"><svg class="w-4 h-4" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>Notificarme</span>
+              <span x-show="loading" class="animate-pulse">Enviando...</span>
+              <span x-show="sent"><svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> ¡Listo, te avisamos!</span>
+            </button>
+          </form>
+          <p x-show="error" x-text="error" x-transition class="text-red-500 dark:text-red-400 text-xs mt-2"></p>
+          <p x-show="sent" x-transition class="text-accent text-xs mt-2 font-medium">¡Suscrito! Te avisaremos en cuanto
+            la app esté disponible.</p>
+        </div>
+
+        <div class="flex items-center gap-3 my-5">
+          <div class="flex-1 h-px bg-gray-200 dark:bg-white/10"></div>
+          <span class="text-xs text-gray-400 dark:text-gray-500">o sigue el proyecto</span>
+          <div class="flex-1 h-px bg-gray-200 dark:bg-white/10"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="w-full inline-flex items-center justify-center gap-2 bg-gray-900 dark:bg-white/10 hover:bg-gray-800 dark:hover:bg-white/20 text-white font-semibold px-4 py-2.5 rounded-xl transition-all text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            GitHub (iOS)
+          </a>
+          <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener"
+            class="w-full inline-flex items-center justify-center gap-2 bg-gray-900 dark:bg-white/10 hover:bg-gray-800 dark:hover:bg-white/20 text-white font-semibold px-4 py-2.5 rounded-xl transition-all text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            GitHub (Android)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer
+    class="bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
+        <div class="sm:col-span-2 lg:col-span-1">
+          <div class="flex items-center gap-2.5 mb-4">
+            <img src="assets/app-icon-dark.png" alt="Llama con 99" class="w-8 h-8 rounded-lg shadow-sm dark:hidden" />
+            <img src="assets/app-icon-light.png" alt="Llama con 99" class="w-8 h-8 rounded-lg shadow-sm hidden dark:block" />
+            <span class="text-gray-900 dark:text-white font-bold text-lg">Llama con 99</span>
+          </div>
+          <p class="text-sm leading-relaxed mb-4 text-gray-500 dark:text-gray-400">App mínima de contactos con identificador de llamadas *99 para números cubanos.</p>
+        </div>
+
+        <div>
+          <h4 class="text-gray-900 dark:text-white font-semibold mb-4 text-sm">Navegación</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#features" class="footer-link">Funciones</a></li>
+            <li><a href="#faq" class="footer-link">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-gray-900 dark:text-white font-semibold mb-4 text-sm">Legal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="privacy.html" class="footer-link">Política de Privacidad</a></li>
+            <li><a href="terms.html" class="footer-link">Términos y Condiciones</a></li>
+            <li><a href="eula.html" class="footer-link">EULA</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-gray-900 dark:text-white font-semibold mb-4 text-sm">Comunidad</h4>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener" class="footer-link flex items-center gap-2">
+                <svg class="w-4 h-4 text-navy dark:text-accent" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                GitHub (iOS)
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/albertolicea00/LlamaCon99" target="_blank" rel="noopener" class="footer-link flex items-center gap-2">
+                <svg class="w-4 h-4 text-navy dark:text-accent" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                GitHub (Android)
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/albertolicea00" target="_blank" rel="noopener" class="footer-link">@albertolicea00 (LinkedIn)</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-gray-500 dark:text-gray-400">© <span x-text="new Date().getFullYear()"></span> Llama con 99. Proyecto independiente — no afiliado a ETECSA.</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">iOS · Android · <a href="https://www.linkedin.com/in/albertolicea00" target="_blank" rel="noopener" class="footer-link">@albertolicea00</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
 </body>
 
 </html>
