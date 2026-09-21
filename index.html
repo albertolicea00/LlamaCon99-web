@@ -82,7 +82,7 @@
     .dark .btn-ghost:hover { background-color: rgba(42,183,143,.08); }
     .section-badge {
       display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-      color: #2AB78F; padding: .3rem .85rem; border-radius: 999px; margin-bottom: 1rem;
+      color: #2AB78F; padding: .3rem .85rem; border-radius: 999px;
     }
     .section-title { font-size: 2rem; font-weight: 900; margin-bottom: .5rem; }
     .section-subtitle { color: #6b7280; max-width: 36rem; margin: 0 auto; }
@@ -379,20 +379,11 @@
       </div>
         
       <!-- Nota de privacidad -->
-      <div class="max-w-6xl mx-auto mt-8 px-0">
-        <div class="bg-navy/5 dark:bg-accent/10 rounded-2xl p-6 border border-navy/20 dark:border-accent/30">
-          <div class="flex items-start gap-4">
-            <div class="p-2.5 rounded-xl bg-navy/10 dark:bg-accent/20 text-navy dark:text-accent shrink-0">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75L11.25 15 15 9.75M21 12c0 4.556-3.04 8.4-7.2 9.618a1.5 1.5 0 01-1.6 0C7.04 20.4 4 16.556 4 12V6.216a1.5 1.5 0 011.05-1.43l6-1.85a1.5 1.5 0 01.9 0l6 1.85a1.5 1.5 0 011.05 1.43V12z"/></svg>
-            </div>
-            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-              <h4 class="font-bold text-base text-gray-900 dark:text-white">Tus contactos se quedan en tu teléfono</h4>
-              <p>
-                La lista que identifica las llamadas <code class="code-inline">*99</code> se guarda localmente y se comparte con la extensión de CallKit mediante un App Group de Apple — nada se envía a un servidor.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="max-w-6xl mx-auto mt-8 px-0 text-center">
+        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+          <strong class="text-gray-700 dark:text-gray-300">Tus contactos se quedan en tu teléfono.</strong>
+          La app se registra directamente con el sistema operativo para identificar las llamadas — todo se guarda localmente en tu dispositivo, nada se envía a un servidor.
+        </p>
       </div>
 
     </section>
