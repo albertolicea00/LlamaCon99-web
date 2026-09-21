@@ -54,6 +54,64 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Qué es una llamada *99?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Es el prefijo que usa ETECSA en Cuba para marcar una llamada por cobro revertido: quien recibe la llamada paga el consumo, no quien llama." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué antes no veía el número real y ahora sí?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Porque ahora Llama con 99 identifica las llamadas *99 y las relaciona con tus contactos. Funciona tanto en iOS como en Android, adaptándose al sistema de cada teléfono." }
+      },
+      {
+        "@type": "Question",
+        "name": "Me instalé la app y aún no me reconoce las llamadas, ¿qué hago?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Primero recuerda activar el identificador según tu sistema. Después, verifica que el número que te llama esté guardado en tus contactos con el formato correcto. Si sigue sin funcionar, puedes abrir un issue en GitHub y lo revisamos." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué Android muestra una notificación y iOS la llamada?",
+        "acceptedAnswer": { "@type": "Answer", "text": "En iOS, el nombre del contacto aparece directamente en la pantalla de llamada entrante. En Android, el sistema no permite modificar la pantalla de llamada nativa a menos que configures la app como tu marcador predeterminado, así que el nombre se muestra como una notificación emergente al recibir la llamada." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué no identifica llamadas con número oculto?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Llama con 99 necesita recibir el número de la llamada para identificarlo. Las llamadas con número oculto no proporcionan esa información, por lo que no pueden ser reconocidas por la app." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué no puedo hacer llamadas con número oculto?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Llama con 99 está enfocada en identificar llamadas con el prefijo *99, no en gestionar llamadas con número oculto. Para esa función, utiliza las opciones de privacidad de tu teléfono." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Necesito internet para usar la app?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. La app solo lee tu libreta de contactos local y marca llamadas nativas; no depende de datos móviles." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Es una app oficial de ETECSA?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Es un proyecto independiente y no está afiliado ni respaldado por ETECSA. Los códigos USSD pueden cambiar a discreción del operador." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuándo estará en la App Store y Play Store?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Actualmente está en revisión de las tiendas — solo disponible instalando desde el código fuente en GitHub. Suscríbete para recibir una notificación en cuanto se publique." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto cuesta la app?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nada. Si ya pagas por las llamadas con 99, no tiene sentido pagar también por ver quién es." }
+      }
+    ]
+  }
+  </script>
 
   <!-- Tailwind CDN + config -->
   <script src="https://cdn.tailwindcss.com"></script>
