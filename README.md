@@ -1,4 +1,4 @@
-# Llama con *99 — Landing Page
+# Llama con \*99 — Landing Page
 
 ![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat&logo=html5&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
@@ -53,10 +53,10 @@ Push to `main` → Vercel auto-deploys. Add env vars from `api/.env.example` in 
 
 ## Colors
 
-| Token            | Hex       |                    |
-| ---------------- | --------- | ------------------ |
-| `--color-navy`   | `#0f0f0f` | Primary (near-black) |
-| `--color-accent` | `#2AB78F` | Green highlights    |
+| Token            | Hex       |                      |
+| ---------------- | --------- | -------------------- |
+| `--color-green`  | `#0f0f0f` | Primary (near-black) |
+| `--color-accent` | `#2AB78F` | Green highlights     |
 
 Solid colors throughout — no gradients. Backgrounds use `rgb(10,10,10)` for dark mode (not Tailwind's default `gray-950`, to avoid a blue-ish cast).
 

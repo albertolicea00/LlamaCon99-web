@@ -1,4 +1,4 @@
-# Llama con *99 — Landing Page
+# Llama con \*99 — Landing Page
 
 ![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat&logo=html5&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
@@ -53,10 +53,10 @@ Push a `main` → Vercel despliega automáticamente. Añade las variables de ent
 
 ## Colores
 
-| Token            | Hex       |                          |
-| ---------------- | --------- | ------------------------ |
-| `--color-navy`   | `#0f0f0f` | Primario (negro casi puro) |
-| `--color-accent` | `#2AB78F` | Destacados en verde       |
+| Token            | Hex       |                            |
+| ---------------- | --------- | -------------------------- |
+| `--color-green`  | `#0f0f0f` | Primario (negro casi puro) |
+| `--color-accent` | `#2AB78F` | Destacados en verde        |
 
 Colores sólidos en todo el sitio — sin degradados. Los fondos en modo oscuro usan `rgb(10,10,10)` (no el `gray-950` por defecto de Tailwind, para evitar un tinte azulado).
 
@@ -74,4 +74,4 @@ Los issues, PRs y mensajes de commit deben estar en inglés.
 
 ---
 
-*Parte del proyecto [Llama con 99](https://github.com/albertolicea00/LlamaCon99) por [Alberto Licea](https://www.linkedin.com/in/albertolicea00).*
+_Parte del proyecto [Llama con 99](https://github.com/albertolicea00/LlamaCon99) por [Alberto Licea](https://www.linkedin.com/in/albertolicea00)._
