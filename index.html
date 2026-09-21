@@ -455,18 +455,36 @@
 
           <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
             <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
-              ¿Por qué no veo el número real en las llamadas *99?
+              ¿Por qué antes no veía el número real y ahora sí?
               <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </summary>
-            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Por defecto tu teléfono solo recibe el número, sin nombre asociado. Llama con 99 activa una extensión de CallKit que cruza ese número con tu libreta de contactos y muestra el nombre real.</p>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+              Porque ahora LlamaCon99 identifica las llamadas <code>*99</code> y las relaciona con tus contactos. Funciona tanto en iOS como en Android, adaptándose al sistema de cada teléfono.
+            </p>
           </details>
 
           <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
             <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
-              ¿Qué hace el prefijo #31#?
-              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              ¿Por qué no identifica llamadas con número oculto?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
             </summary>
-            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Es un código estándar GSM que oculta tu número al hacer una llamada saliente. Desliza sobre un contacto en la app para usarlo.</p>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+              LlamaCon99 necesita recibir el número de la llamada para identificarlo. Las llamadas con número oculto no proporcionan esa información, por lo que no pueden ser reconocidas por la app.
+            </p>
+          </details>
+          
+          <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Por qué no puedo hacer llamadas con número oculto?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+              LlamaCon99 está enfocada en identificar llamadas con el prefijo <code>*99</code>, no en gestionar llamadas con número oculto. Para esta función, utiliza las opciones de privacidad de tu teléfono.
+            </p>
           </details>
 
           <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
@@ -477,14 +495,28 @@
             <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">No. La app solo lee tu libreta de contactos local y marca llamadas nativas; no depende de datos móviles.</p>
           </details>
 
-
-
           <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
             <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
               ¿Es una app oficial de ETECSA?
               <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </summary>
             <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">No. Es un proyecto independiente y no está afiliado ni respaldado por ETECSA. Los códigos USSD pueden cambiar a discreción del operador.</p>
+          </details>
+
+          <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Cuándo estará en la App Store y Play Store?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Actualmente está en revisión de las tiendas — solo disponible instalando desde el código fuente en GitHub. <button @click="notifyOpen = true" class="text-accent underline cursor-pointer">Suscríbete</button> para recibir una notificación en cuanto se publique.</p>
+          </details>
+
+          <details class="bg-transparent rounded-2xl border border-gray-100 dark:border-gray-700/60 p-5 group">
+            <summary class="flex items-center justify-between font-bold text-gray-900 dark:text-white">
+              ¿Cuánto cuesta la app?
+              <svg class="faq-chevron w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Nada. Si ya pagas por las llamadas con 99, ¿para qué pagar también por ver quién es?</p>
           </details>
 
         </div>
