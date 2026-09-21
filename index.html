@@ -149,7 +149,7 @@
        NAV
   ════════════════════════════════════════ -->
   <nav style="z-index: 9999;"
-    class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+    class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[rgba(10,10,10,0.8)] backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
       <a href="#" class="flex items-center gap-2.5 font-bold text-navy dark:text-accent text-lg">
@@ -206,7 +206,7 @@
 
     <!-- Mobile Menu -->
     <div x-show="mobileMenuOpen" x-transition
-      class="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md">
+      class="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white/95 dark:bg-[rgba(10,10,10,0.95)] backdrop-blur-md">
       <div class="px-4 pt-2 pb-6 space-y-1 shadow-lg">
         <a href="#features" @click="mobileMenuOpen = false"
           class="block px-3 py-3 rounded-xl text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Funciones</a>
