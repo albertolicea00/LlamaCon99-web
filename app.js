@@ -2,10 +2,17 @@ function app() {
   return {
     mobileMenuOpen: false,
     notifyOpen: false,
+    githubStars: null,
     darkMode: localStorage.getItem('darkMode') === 'true' ||
       (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
     init() {
       this.$watch('darkMode', val => localStorage.setItem('darkMode', val));
+      fetch('https://api.github.com/repos/albertolicea00/LlamaCon99')
+        .then(r => r.json())
+        .then(repo => {
+          if (repo.stargazers_count !== undefined) this.githubStars = repo.stargazers_count;
+        })
+        .catch(() => {});
     }
   }
 }
